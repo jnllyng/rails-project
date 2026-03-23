@@ -1,0 +1,25 @@
+<div class="row mt-4">
+  <div class="col-md-6">
+    <% if @product.image.present? %>
+      <img src="<%= @product.image %>" class="img-fluid" alt="<%= @product.name %>" style="width: 100%; height: 500px; object-fit: cover;">
+    <% end %>
+  </div>
+  <div class="col-md-6 ps-5">
+    <p class="product-category-link">
+      <%= link_to @product.category.name, category_path(@product.category), class: "product-category-link" %>
+    </p>
+    <h1 class="mt-2 mb-3"><%= @product.name %></h1>
+    <hr class="vintage-divider">
+    <p class="product-price mb-3">$<%= @product.price %></p>
+    <p class="mb-4" style="line-height: 1.8; color: #6b5a4e;"><%= @product.description %></p>
+    <p>
+      <% if @product.stock > 0 %>
+        <span class="badge bg-success">In Stock — <%= @product.stock %> available</span>
+      <% else %>
+        <span class="badge bg-danger">Out of Stock</span>
+      <% end %>
+    </p>
+    <hr class="vintage-divider">
+    <%= link_to "← Back to Products", products_path, class: "btn btn-outline-dark mt-2" %>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<h1 class="mb-4">Products</h1>
+<div class="page-header">
+  <p>Our Collection</p>
+  <h1>All Products</h1>
+</div>
+<div class="row justify-content-center mb-5">
+  <div class="col-md-6">
+    <%= form_with url: products_path, method: :get, local: true do |f| %>
+      <div class="input-group">
+        <%= f.text_field :search, value: params[:search], placeholder: "Search products...", class: "form-control" %>
+        <%= f.submit "Search", class: "btn btn-dark" %>
+      </div>
+    <% end %>
+    <% if params[:search].present? %>
+      <p class="mt-2 text-muted" style="font-size: 0.85rem;">
+        <%= @products.count %> results for "<%= params[:search] %>"
+        <%= link_to "Clear", products_path, class: "ms-2" %>
+      </p>
+    <% end %>
+  </div>
+</div>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  <% @products.each do |product| %>
+    <div class="col">
+      <div class="card h-100">
+        <% if product.image.present? %>
+          <img src="<%= product.image %>" class="card-img-top" alt="<%= product.name %>" style="height: 250px; object-fit: cover;">
+        <% end %>
+        <div class="card-body">
+          <p class="text-muted mb-1" style="font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;"><%= product.category.name %></p>
+          <h5 class="card-title"><%= product.name %></h5>
+          <p class="product-price">$<%= product.price %></p>
+        </div>
+        <div class="card-footer">
+          <%= link_to "View Details", product_path(product), class: "btn btn-dark w-100" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

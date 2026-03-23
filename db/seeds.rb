@@ -31,11 +31,12 @@ puts "#{Province.count} provinces"
 # 2. Categories & Products
 products_data = []
 
-uri = URI("https://dummyjson.com/products?limit=0")
-response = Net::HTTP.get(uri)
-data = JSON.parse(response)
-products_data = data["products"]
-
+[ "furniture", "home-decoration" ].each do |cat|
+  uri = URI("https://dummyjson.com/products/category/#{cat}?limit=100")
+  response = Net::HTTP.get(uri)
+  data = JSON.parse(response)
+  products_data += data["products"]
+end
 products_data.each do |product|
   category = Category.find_or_create_by(name: product["category"].capitalize.gsub("-", " ")) do |c|
     c.description = "#{product["category"].capitalize.gsub("-", " ")} collection"
@@ -47,6 +48,21 @@ products_data.each do |product|
     p.price = product["price"]
     p.stock = product["stock"]
     p.image = product["thumbnail"]
+  end
+end
+
+csv_file = Rails.root.join("db", "products.csv")
+CSV.foreach(csv_file, headers: true) do |row|
+  category = Category.find_or_create_by(name: row["category"]) do |c|
+    c.description = "#{row["category"]} collection"
+  end
+
+  Product.find_or_create_by(name: row["name"]) do |p|
+    p.category = category
+    p.description = row["description"]
+    p.price = row["price"].to_f
+    p.stock = row["stock"].to_i
+    p.image = row["image"]
   end
 end
 
