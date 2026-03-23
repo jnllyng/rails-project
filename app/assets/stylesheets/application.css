@@ -157,3 +157,34 @@ h1, h2, h3, h4, h5 {
   border-top: 1px solid var(--beige);
   margin: 2rem 0;
 }
+
+/* ===== PAGINATION ===== */
+.pagination {
+  gap: 4px;
+}
+
+.pagination .page-link {
+  color: var(--dark-brown);
+  border-color: var(--beige);
+  border-radius: 0;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  padding: 0.5rem 1rem;
+}
+
+.pagination .page-link:hover {
+  background-color: var(--beige);
+  color: var(--dark-brown);
+  border-color: var(--beige);
+}
+
+.pagination .page-item.active .page-link {
+  background-color: var(--dark-brown);
+  border-color: var(--dark-brown);
+  color: var(--cream);
+}
+
+.pagination .page-item.disabled .page-link {
+  color: var(--beige);
+  border-color: var(--beige);
+}
